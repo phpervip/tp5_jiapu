@@ -12,7 +12,7 @@ use app\common\model\Member;
 use think\cache\driver\Redis;
 use think\Controller;
 
-class index9 extends Controller
+class Index9 extends Controller
 {
     public function tree(){
         return $this->fetch();

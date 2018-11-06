@@ -11,7 +11,7 @@ use app\common\model\Member;
 use think\cache\driver\Redis;
 use think\Controller;
 
-class index extends Controller
+class Index extends Controller
 {
 
     public function demo_redis(){
