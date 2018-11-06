@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="__STATIC__/jquery-1.10.2.min.js"></script>
+    <!-- 引入 ECharts 文件 -->
+    <script src="__STATIC__/echarts.js"></script>
+
+</head>
+<body>
+<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+{for start="1" end="196"}
+    <div id="main{$i}" style="width: 600px;height:400px;"></div>
+{/for}
+
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    // http://echarts.baidu.com/examples/data/asset/data/flare.json
+    // 基于准备好的dom，初始化echarts实例
+    var url = "{:url('/admin/index9/mydata')}";
+    $.get(url, function (data) {
+        var myChart=[];
+        for (var i = 1; i <=196; i++) {
+            var datanew = data[i-1];
+            console.log(datanew);
+            var key = "main"+i;
+            myChart[i] = echarts.init(document.getElementById(key));
+            myChart[i].setOption(option = {
+                tooltip: {
+                    trigger: 'item',
+                    triggerOn: 'mousemove'
+                },
+                series: [
+                    {
+                        initialTreeDepth:4,
+                        type: 'tree',
+                        data: [datanew],
+                        left: '2%',
+                        right: '2%',
+                        top: '8%',
+                        bottom: '20%',
+                        symbol: 'emptyCircle',
+                        orient: 'vertical',
+                        expandAndCollapse: true,
+                        label: {
+                            normal: {
+                                position: 'top',
+                                rotate: -90,
+                                verticalAlign: 'middle',
+                                align: 'right',
+                                fontSize: 9
+                            }
+                        },
+                        leaves: {
+                            label: {
+                                normal: {
+                                    position: 'bottom',
+                                    rotate: -90,
+                                    verticalAlign: 'middle',
+                                    align: 'left'
+                                }
+                            }
+                        },
+                        animationDurationUpdate: 750
+                    }
+                ]
+            });
+
+        }
+    });
+
+
+</script>
+</body>
+</html>
