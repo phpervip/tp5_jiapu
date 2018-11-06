@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="__STATIC__/jquery-1.10.2.min.js"></script>
+    <!-- 引入 ECharts 文件 -->
+    <script src="__STATIC__/echarts.js"></script>
+
+</head>
+<body>
+<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+<div id="main1" style="width: 600px;height:400px;"></div>
+<div id="main2" style="width: 600px;height:400px;"></div>
+
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    // http://echarts.baidu.com/examples/data/asset/data/flare.json
+    // 基于准备好的dom，初始化echarts实例
+    var myChart1 = echarts.init(document.getElementById('main1'));
+    var myChart2 = echarts.init(document.getElementById('main2'));
+    myChart1.showLoading();
+    myChart2.showLoading();
+    var url = "{:url('/admin/index9/data')}";
+    $.get(url, function (data) {
+        var data1= data[0];
+        var data2= data[1];
+        myChart1.hideLoading();
+        myChart2.hideLoading();
+        myChart1.setOption(option = {
+            tooltip: {
+                trigger: 'item',
+                triggerOn: 'mousemove'
+            },
+            series:[
+                {
+                    type: 'tree',
+
+                    data: [data1],
+
+                    left: '2%',
+                    right: '2%',
+                    top: '8%',
+                    bottom: '20%',
+
+                    symbol: 'emptyCircle',
+
+                    orient: 'vertical',
+
+                    expandAndCollapse: true,
+
+                    label: {
+                        normal: {
+                            position: 'top',
+                            rotate: -90,
+                            verticalAlign: 'middle',
+                            align: 'right',
+                            fontSize: 9
+                        }
+                    },
+
+                    leaves: {
+                        label: {
+                            normal: {
+                                position: 'bottom',
+                                rotate: -90,
+                                verticalAlign: 'middle',
+                                align: 'left'
+                            }
+                        }
+                    },
+
+                    animationDurationUpdate: 750
+                }
+            ]
+        });
+
+        myChart2.setOption(option = {
+            tooltip: {
+                trigger: 'item',
+                triggerOn: 'mousemove'
+            },
+            series:[
+                {
+                    type: 'tree',
+
+                    data: [data2],
+
+                    left: '2%',
+                    right: '2%',
+                    top: '8%',
+                    bottom: '20%',
+
+                    symbol: 'emptyCircle',
+
+                    orient: 'vertical',
+
+                    expandAndCollapse: true,
+
+                    label: {
+                        normal: {
+                            position: 'top',
+                            rotate: -90,
+                            verticalAlign: 'middle',
+                            align: 'right',
+                            fontSize: 9
+                        }
+                    },
+
+                    leaves: {
+                        label: {
+                            normal: {
+                                position: 'bottom',
+                                rotate: -90,
+                                verticalAlign: 'middle',
+                                align: 'left'
+                            }
+                        }
+                    },
+
+                    animationDurationUpdate: 750
+                }
+            ]
+        });
+
+    });
+</script>
+</body>
+</html>
