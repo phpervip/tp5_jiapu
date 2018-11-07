@@ -27,6 +27,7 @@ class Index extends Controller
         set_time_limit(0);
         $member = new Member;
         $level_max = $member->max('level');
+        // need to install Redis server and php redis.
         $redis = new Redis();
         if($redis->get('tree')){
             $tree = $redis->get('tree');
@@ -40,9 +41,12 @@ class Index extends Controller
             }
             $redis->set('tree',$tree);
         }
+        if(!is_array($tree)){
+            $tree = json_decode($tree,true);
+        };
         // 对第一层重新书写
         $i=0;
-        foreach(json_decode($tree,true) as $k=>$v){
+        foreach($tree as $k=>$v){
             $name = $member->where('id',$k)->value('name');
             $data[$i]['name'] = $name;
             $data[$i]['children'] = $v;

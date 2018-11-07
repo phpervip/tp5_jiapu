@@ -17,27 +17,24 @@ class Index9 extends Controller
     public function tree(){
         return $this->fetch();
     }
-
     public function mydata(){
         set_time_limit(0);
         $member = new Member;
         $level_max = $member->max('level');
-        $redis = new Redis();
-        if($redis->get('tree')){
-            $tree = $redis->get('tree');
-        }else{
-            for($al=1;$al<$level_max;$al+=4){
-                $map = "level=".$al." and childs<>''";
-                $list = $member->field('id,pid,name')->where($map)->select();
-                foreach($list as $k=>$v){
-                    $tree[$v['id']] = $this->data($al,$v['id']);
-                }
+
+        for($al=1;$al<$level_max;$al+=4){
+            $map = "level=".$al." and childs<>''";
+            $list = $member->field('id,pid,name')->where($map)->select();
+            foreach($list as $k=>$v){
+                $tree[$v['id']] = $this->data($al,$v['id']);
             }
-            $redis->set('tree',$tree);
-        }
+         }
+        if(!is_array($tree)){
+            $tree = json_decode($tree,true);
+        };
         // 对第一层重新书写
         $i=0;
-        foreach(json_decode($tree,true) as $k=>$v){
+        foreach($tree as $k=>$v){
             $name = $member->where('id',$k)->value('name');
             $data[$i]['name'] = $name;
             $data[$i]['children'] = $v;
