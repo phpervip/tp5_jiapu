@@ -8,8 +8,6 @@
 
 namespace app\admin\controller;
 use app\common\model\Member;
-
-use think\cache\driver\Redis;
 use think\Controller;
 
 class Index9 extends Controller
@@ -21,7 +19,7 @@ class Index9 extends Controller
         set_time_limit(0);
         $member = new Member;
         $level_max = $member->max('level');
-
+        $level_max = 8;
         for($al=1;$al<$level_max;$al+=4){
             $map = "level=".$al." and childs<>''";
             $list = $member->field('id,pid,name')->where($map)->select();
@@ -29,6 +27,7 @@ class Index9 extends Controller
                 $tree[$v['id']] = $this->data($al,$v['id']);
             }
          }
+
         if(!is_array($tree)){
             $tree = json_decode($tree,true);
         };
@@ -56,18 +55,28 @@ class Index9 extends Controller
     {
         set_time_limit(0);
         $member = new Member;
-        $tree = '';
+        $tree = [];
         foreach($data as $k => $v)
         {
+           /* echo '<pre>';
+            var_dump($v['id']);
+            echo '<pre>';*/
+
             if($v['pid'] == $pId)
             {        //父亲找到儿子
                 $v['children'] = $this->getTree($data, $v['id']);
+                /*echo '<pre>';
+                var_dump($v['children']);
+                echo '<pre>';*/
                 $level = $member->where('id',$v['id'])->value('level');
                 $v['level'] = $level;
                 $tree[] = $v;
                 //unset($data[$k]);
             }
         }
+        /*echo '<pre>';
+        var_dump($tree);
+        echo '<pre>';*/
         return $tree;
     }
 

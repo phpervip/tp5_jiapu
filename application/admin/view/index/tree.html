@@ -9,7 +9,7 @@
 </head>
 <body>
 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-{for start="1" end="196"}
+{for start="1" end="298"}
     <div id="main{$i}" style="width: 600px;height:400px;"></div>
 {/for}
 
@@ -17,10 +17,10 @@
     // 基于准备好的dom，初始化echarts实例
     // http://echarts.baidu.com/examples/data/asset/data/flare.json
     // 基于准备好的dom，初始化echarts实例
-    var url = "{:url('/admin/index9/mydata')}";
+    var url = "{:url('/admin/index/mydata')}";
     $.get(url, function (data) {
         var myChart=[];
-        for (var i = 1; i <=196; i++) {
+        for (var i = 1; i <=298; i++) {
             var datanew = data[i-1];
             console.log(datanew);
             var key = "main"+i;
